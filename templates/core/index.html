@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="container mt-5">
+    {% if user.is_superuser %}
+    <div class="row text-center">
+        <div class="col">
+            <a href="{% url 'register_doc' %}" class="btn btn-info text-light">Create Doctor</a>
+        </div>
+        
+        <div class="col">
+            <a href="{% url 'register' %}" class="btn btn-success">Create Patient</a>
+        </div>
+    </div>
+
+    <hr>
+    {% endif %}
+    
+
+    <div class="accordion" id="accordionExample">
+        {% if user.is_staff %}
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Patient List
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div class="row justify-content-center">
+                    {% if patients %}
+                    {% for i in patients %}
+
+                    <div class="clear-fix mt-2">
+                        <div class="float-start">
+                            <img style="border-radius: 50%; width: 60px; padding: 1px; border: 1px solid blue;"
+                                src="{% if i.profile.profile_picture  %}{{i.profile.profile_picture.url}} {% else %} https://via.placeholder.com/150 {% endif %}"/>
+                        
+                            <a href="{% url 'profile' i.id %}"  style="width: max-content;" class="btn text-primary" >{{i.first_name}} {{i.last_name}}</a>
+                            
+                        </div>
+                        <div class="float-end">
+                            <p>{{i.profile.city}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No Patient found !!</p>
+                    {% endif %}
+                </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              My Profile
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 class="card-title text-center">
+                                {% if user.is_superuser %}
+                                    Admin Information
+                                {% elif user.is_staff %}
+                                    Doctor Information
+                                {% else %}
+                                    Patient Information
+                                {% endif %}
+                                </h2>
+                                <div class="text-center mb-4">
+                                    {% if profile.profile_picture %}
+                                        <img src="{{ profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture" width="150" height="150">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle" alt="Profile Picture" width="150" height="150">
+                                    {% endif %}
+                                </div>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Username</th>
+                                        <td>{{ user.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>{{ user.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>First Name</th>
+                                        <td>{{ user.first_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Last Name</th>
+                                        <td>{{ user.last_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Role</th>
+                                        <td>{{ user.is_staff|yesno:"Doctor,Patient" }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Address</th>
+                                        <td>{{ profile.address }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>City</th>
+                                        <td>{{ profile.city }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>State</th>
+                                        <td>{{ profile.state }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pincode</th>
+                                        <td>{{ profile.pincode }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+</div>
+{% endblock %}

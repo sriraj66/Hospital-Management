@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banao - Python Django Task - 27/06</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+    body {
+      font-family: "Open Sans", sans-serif;
+    }
+
+    nav {
+      background-color: #fff;
+      box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.259);
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px;
+      text-align: center;
+    }
+
+    #assignment {
+      position: fixed;
+      bottom: 0;
+      margin: 10px;
+      right: 0;
+      font-size: 12px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+
+  <div class="container">
+    <nav>
+      <div class="p-2">
+        <a class="text-primary btn" href="{% url 'index' %}">
+          <h2>Hospital Management</h2>
+        </a>
+      </div>
+      <div class="p-2">
+        {% if user.is_authenticated %}
+        <div class="nav-item dropdown">
+          <img class="nav-link dropdown-toggle"
+            style="border-radius: 50%; width: 60px; padding: 1px; border: 1px solid blue;"
+            src="{% if user.profile.profile_picture  %}{{user.profile.profile_picture.url}} {% else %} https://via.placeholder.com/150 {% endif %}"
+            data-bs-toggle="dropdown" aria-expanded="false" />
+          <ul class="dropdown-menu">
+            <li>
+              <p class="dropdown-item"> @{{user.username}} </p>
+            </li>
+            <li><a class="dropdown-item" href="{% url 'profile' user.id %}">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="dropdown-item text-danger" type="submit">logout</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-success">Login</a>
+        {% endif %}
+      </div>
+    </nav>
+  </div>
+  <br>
+  <div class="container">
+    {% if messages %} {% for i in messages %}
+    <div class="alert alert-{{i.tags}}">{{i}}</div>
+    <br />
+    {% endfor %} {% endif %}
+  </div>
+  {% block main %}
+  {% endblock %}
+
+  <br><br><br>
+
+
+  <button type="button" class="btn btn-primary" id="assignment" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Assignment
+  </button>
+
+  <!-- Modal -->
+  <div class="modal modal-lg fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-6" id="staticBackdropLabel">Assignment</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h3>Task Description</h3>
+          <p>Create an application to enable signup and login for different types of users. On login, redirect users to
+            their respective dashboards.</p>
+          <h3>Details:</h3>
+          <ol>
+            <li>Types of Users:
+              <ul>
+                <li>Patient</li>
+                <li>Doctor</li>
+              </ul>
+            </li>
+            <li>The signup form should have the following fields:
+              <ul>
+                <li>First Name</li>
+                <li>Last Name</li>
+                <li>Profile Picture</li>
+                <li>Username</li>
+                <li>Email Id</li>
+                <li>Password</li>
+                <li>Confirm Password</li>
+                <li>Address (line1, city, state, pincode)</li>
+              </ul>
+            </li>
+            <li>There should be a check to see if the password and confirm password fields match.</li>
+            <li>There is no specific structure for the dashboards; they can simply display the details entered in the
+              signup form.</li>
+          </ol>
+          <h3>Task Submissions Guidelines:</h3>
+          <p>Submit a video showing every functionality which we asked you to do.</p>
+        </div>
+        <div class="modal-footer">
+          <p style="text-align: center; width: 100%;">Developed by Sriram R</p>
+
+          <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+    integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

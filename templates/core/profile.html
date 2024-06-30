@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="clearfix">
+                        <div class="float-end">
+                            <a href="{% url 'index' %}">back</a>
+                        </div>
+                    </div>
+                    <h2 class="card-title text-center">
+                    {% if puser.is_superuser %}
+                        Admin Information
+                    {% elif puser.is_staff %}
+                        Doctor Information
+                    {% else %}
+                        Patient Information
+                    {% endif %}
+                    </h2>
+                    
+                    <div class="text-center mb-4">
+                        {% if profile.profile_picture %}
+                            <img src="{{ profile.profile_picture.url }}" class="img-fluid rounded-circle" alt="Profile Picture" width="150" height="150">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle" alt="Profile Picture" width="150" height="150">
+                        {% endif %}
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Username</th>
+                            <td>{{ puser.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{ puser.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>First Name</th>
+                            <td>{{ puser.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th>
+                            <td>{{ puser.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Role</th>
+                            <td>{{ puser.is_staff|yesno:"Doctor,Patient" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Address</th>
+                            <td>{{ profile.address }}</td>
+                        </tr>
+                        <tr>
+                            <th>City</th>
+                            <td>{{ profile.city }}</td>
+                        </tr>
+                        <tr>
+                            <th>State</th>
+                            <td>{{ profile.state }}</td>
+                        </tr>
+                        <tr>
+                            <th>Pincode</th>
+                            <td>{{ profile.pincode }}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Login</th>
+                            <td>{{ puser.last_login }}</td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+# Ignore common files and directories
+.git
+node_modules
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+
+# Ignore development and local files
+*.sqlite3
+
+*.venv
+.venv
+# Ignore Docker-specific files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Ignore editor and IDE files
+.vscode/
+.idea/
+
+# Ignore logs and temporary files
+*.log
+*.swp
