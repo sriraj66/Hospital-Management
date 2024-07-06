@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block main %}
+
+<div class="container">
+    <h3>Edit Blog</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %} {{ form.as_p }}
+        <div class="form-group mt-4 mb-2">
+            <div class="form-check-lg form-switch">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    {% if blog.is_draft %}checked{%endif%}
+                    role="switch"
+                    name="is_draft"
+                    id="flexSwitchCheckDefault"
+                />
+                {% if blog.is_draft %}
+                <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >Turn off to Publish the blog.</label
+                >
+                {% else %}
+                <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >Save as Draft</label
+                >
+                {% endif %}
+            </div>
+        </div>
+        <div class="btn-group w-100">
+        <button type="submit" class="btn btn-success">Save</button>
+        <a class="btn btn-danger" href="{% url 'view_blog' blog.id %}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

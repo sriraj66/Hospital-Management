@@ -3,7 +3,7 @@
 {% block main %}
 
 <div class="container mt-5">
-    {% if user.is_superuser %}
+    {% if user.is_staff %}
     <div class="row text-center">
         <div class="col">
             <a href="{% url 'register_doc' %}" class="btn btn-info text-light">Create Doctor</a>
@@ -11,6 +11,10 @@
         
         <div class="col">
             <a href="{% url 'register' %}" class="btn btn-success">Create Patient</a>
+        </div>
+
+        <div class="col">
+            <a href="{% url 'create_blog' %}" class="btn btn-primary">Create Blog</a>
         </div>
     </div>
 

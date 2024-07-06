@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<style>
+    p {
+        margin-top: 3px;
+        line-height: 2;
+    }
+    ul {
+        list-style-type: disc;
+        margin-left: 20px;
+    }
+    li {
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+    textarea{
+        height: 40px;
+    }
+    .tabs{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .opt a{
+        margin-left: 20px;
+        float: end;
+    }
+    a{
+        font-size: 18px;
+        text-decoration: none;
+    }
+    a svg{
+        height: 18px;
+        width: 18px;
+    }
+    .rec{
+        display: flex;
+        justify-content: row;
+        align-items: center;
+        justify-content: space-evenly;
+        min-width: 200px;
+    }
+    
+</style>
+{% if user == blog.user %}
+<div class="container tabs mt-3">
+    <p style=" width: max-content; padding-left: 4px; padding-right: 4px; border-radius: 5px;" class="text-light bg-primary {% if not blog.is_draft %} bg-success {% endif %}">
+        {% if blog.is_draft %}
+            Saved as Draft
+        {% else %}
+            Public
+        {% endif %}
+    </p>
+    <div class="opt">
+        <a href="{% url 'edit_blog' blog.id %}">
+            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> edit</a>
+        <a href="{% url 'delete_blog' blog.id %}">
+            <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg> delete</a>
+        
+    </div>
+</div>
+{% endif %}
+<div class="container mt-3">
+    
+    
+    <div class="clearfix">
+        <div class="float-end rec">
+            {% include 'blog/partials/like.html' %}
+            <p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>    
+                {{blog.count_comments}}
+            </p>
+        </div>
+    </div>
+    <h2>{{blog.title}}</h2>
+    <p>{{blog.summary}}</p>
+
+    <div class="container" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <img src="{{blog.image.url}}" style="max-width: fit-content;" class="img-fluid" alt="...">
+    </div>
+
+    {{content|safe}}
+    <hr class="mt-3">
+    <h3>Author:</h3>
+    <table>
+        <tbody>
+            <tr>
+                <td>Name </td>
+                <td>: <a href="{% url 'profile' blog.user.id %}" target="_blank">{{blog.user.first_name}} {{blog.user.last_name}}</a></td>
+            </tr>
+            <tr>
+                <td>City </td>
+                <td>: {{blog.user.profile.city}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Posted on {{blog.created}}</p>
+
+    <hr>
+    {% if not blog.is_draft %}
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'view_blog' blog.id %}">
+            {% csrf_token %}
+            {{cform.as_p}}
+            <button type="submit" class="btn btn-primary w-100">Post</button>
+        </form>
+    {% else %}
+
+    <p>Login to comment. Click here to <a href="{% url 'login' %}">login</a></p>
+    {% endif %}
+
+    <hr>
+    {% if blog.comments %}
+        <h3>Comments</h3>
+        {% for i in blog.comments.all %}
+            <div class="card mt-3">
+
+                <div class="card-body p-2">
+                    {{i.text}}
+                </div>
+                <div class="card-footer clear-fix">
+                    <div class="float-start">
+                        <img src="{{i.user.profile.profile_picture.url}}" width="50" class="rounded-circle" style="border: 1px solid blue; padding: 2px;" alt="">
+                        {{i.user.first_name}} {{i.user.last_name}}
+                    </div>
+                    <div class="float-end text-center align-items-center p-2">
+                    {{i.created}}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        <p>No Comments</p>
+    {% endif %}
+    {% else %}
+    <p>Make as Public to reveal comments</p>
+    {% endif %}
+</div>
+
+
+    
+{% endblock %}

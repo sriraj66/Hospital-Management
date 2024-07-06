@@ -1,0 +1,22 @@
+<p class="like-button {% if is_liked %} text-danger {% endif %}" id="like-btn" 
+   hx-post="{% url 'like_blog' blog.id %}" hx-swap="innerHTML"  hx-target="#like-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+         class="feather feather-heart">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    </svg> 
+    {{ blog.likes.count }}
+</p>
+
+<script>
+    document.addEventListener('htmx:afterSwap', function(event) {
+        var likeBtn = document.getElementById('like-btn');
+        var isLiked = likeBtn.classList.contains('text-danger');
+        
+        if (isLiked) {
+            likeBtn.classList.add('text-danger');
+        } else {
+            likeBtn.classList.remove('text-danger');
+        }
+    });
+</script>

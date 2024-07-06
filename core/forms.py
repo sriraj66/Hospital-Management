@@ -39,3 +39,51 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['profile_picture', 'address', 'city', 'state', 'pincode']
+        
+
+class BlogForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        if self.user is None:
+            raise ValueError("User must be provided to the form")
+        super(BlogForm, self).__init__(*args, **kwargs)
+
+    def save(self, is_draft=False, commit=True):
+        instance = super(BlogForm, self).save(commit=False)
+        instance.user = self.user
+        instance.is_draft = is_draft
+        if commit:
+            instance.save()
+        return instance
+
+    class Meta:
+        model = Blog
+        fields = ['title', 'image', 'cat', 'summary', 'content']
+        widgets = {
+            'title': forms.TextInput(attrs={"class": "form-control", "required": 'true'}),
+            'image': forms.ClearableFileInput(attrs={"class": "form-control"}),
+            'cat': forms.Select(choices=CATOGORIES, attrs={"class": "form-control"}),
+            'summary': forms.Textarea(attrs={"class": "form-control"}),
+            'content': forms.Textarea(attrs={"class": "form-control","placeholder": "Write as ## Markdown text"}),
+        }
+
+class CommentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(CommentForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        instance = super(CommentForm, self).save(commit=False)
+        instance.user = self.user
+        if commit:
+            instance.save()
+        return instance
+
+    class Meta:
+        model = Comments
+        fields = ['text',]
+        widgets = {
+            'text': forms.Textarea(attrs={"class": "form-control","required": 'true','placeholder':'Enter your comments'}),
+            }
+
+

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+
+<div class="container mt-3">
+    <form method="post" id="BlogForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <p id="status-draft"></p>
+        <input type="checkbox" hidden id='is_draft' name="is_draft">
+        <div class="btn-group w-100">
+            <button type="submit" class="btn btn-success" id="form-submit">Submit</button>
+            <button onclick="save_draft()" type="button" class="btn btn-info text-light">Save as Draft</button>
+            <button type="reset" class="btn btn-danger">Reset</button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    function save_draft(){
+        document.getElementById('is_draft').checked= !document.getElementById('is_draft').checked;
+        if(document.getElementById('is_draft').checked==true){
+            document.getElementById('status-draft').innerText = "Saved As Draft";
+        }else{
+            document.getElementById('status-draft').innerText = "not Saved As Draft";
+        }
+        document.getElementById('form-submit').click();
+    }
+
+</script>
+
+{% endblock %}
