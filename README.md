@@ -1,4 +1,4 @@
-Sure, here's an updated README file including the new blog system feature:
+
 
 # Django User Signup and Login Application with Blog System
 
