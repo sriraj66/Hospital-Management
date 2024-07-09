@@ -81,6 +81,7 @@
             {% if user.is_staff %}
             <li><a class="dropdown-item" href="{% url 'my_blogs' %}">My Blogs</a></li>
             {% endif %}
+            <li><a class="dropdown-item" href="{% url 'my_appoinments' %}">Appoinments</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -101,6 +102,7 @@
   </div>
   <div class="container p-3 menu">
     <a href="{% url 'all_blogs' %}">Blogs</a>
+    <a href="{% url 'all_doctors' %}">Doctors</a>
     {% if user.is_staff %}
     <a href="{% url 'create_blog' %}">Create blog</a>
     <a href="{% url 'my_blogs' %}">My Blogs</a>
@@ -137,6 +139,53 @@
         </div>
         <div class="modal-body">
 
+          <div class="description">
+            <h2>Description:</h2>
+            <p>Integrate an appointment booking system within the application created in the previous tasks. The patient can book an appointment with the doctor.</p>
+        </div>
+        
+        <div class="details">
+            <h3>3# Task Details:</h3>
+            <ul>
+                <li>The patient user should be able to see a list of all the doctors in the system</li>
+                <li>
+                    Each list item should have:
+                    <ul>
+                        <li>Profile picture</li>
+                        <li>Name</li>
+                        <li>A button “Book Appointment”</li>
+                    </ul>
+                </li>
+                <li>
+                    Upon clicking that button the patient user should see a form with following:
+                    <ul>
+                        <li>Required speciality</li>
+                        <li>Date of Appointment</li>
+                        <li>Start Time of Appointment</li>
+                        <li>A confirm button</li>
+                    </ul>
+                </li>
+                <li>Each appointment will be of 45 mins</li>
+                <li>When user clicks on confirm a calendar event has to be created for the doctor user</li>
+                <li>
+                    On confirmation the patient should see a screen with the appointment details:
+                    <ul>
+                        <li>Doctor's Name</li>
+                        <li>Appointment date</li>
+                        <li>Appointment start time</li>
+                        <li>Appointment end time (to be calculated by the application)</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="technical-requirement">
+            <h3>Technical requirement:</h3>
+            <p>Use Googless calendar API for creating calendar events</p>
+        </div>
+        
+
+          <hr>
           <h3>2#Task Description</h3>
           <p>Integrate a blog system within the application created in the previous task. The doctors can upload new
             blog posts and the patients can view them.</p>

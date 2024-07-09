@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<div class="container">
+    
+    <div class="card mt-3">
+        <div class="card-header">
+            <div class="card-title">
+                Book Appoinment
+            </div>
+        </div>
+        <div class="card-body">
+
+            <table class="table w-100 table-bordered mt-3 mb-3">
+                <h4>Doctors Details</h4>
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{doctor}}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Speciality</td>
+                        <td>{{doctor.speciality}}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Location</td>
+                        <td>{{doctor.user.profile.city}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+        
+                <div class="btn-group mt-3 w-100">
+                    <button type="submit" class="btn btn-success">Book Appoinment</button>
+                    <a href="{% url 'all_doctors' %}" class="btn btn-danger">Cancel</a>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}

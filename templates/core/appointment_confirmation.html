@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    <div class="container">
+
+
+        <div class="card mt-3">
+            <span class=" position-absolute top-0 start-100 translate-middle" style="margin-left: 10px;">
+                    
+                {% if not appointment.is_visited %}
+                {% if not appointment.is_expired %}
+                <span class="badge text-bg-success">Upcoming</span>
+                {% else %}
+                <span class="badge text-bg-danger">Expired</span>
+                {% endif %}
+                {% else %}
+                <span class="badge text-bg-info">Visited</span>
+                {% endif %}
+
+            </span>
+            <div class="card-header ">
+                <div class="card-title">
+                    <h3>
+                        Appoinment with {{appointment.doctor}}</h3>
+                </div>
+            </div>
+            <div class="card-body mt-3">
+
+                <p><strong>Appoinment Details</strong></p>
+
+                <table class="table table-bordered">
+                    <tbody>
+                        
+                        <tr>
+                            <td>Patiend Name</td>
+                            <td>{{appointment.patient.get_full_name}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Reson</td>
+                            <td>{{appointment.cause}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Date</td>
+                            <td>
+                                {{appointment.date}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Start Time</td>
+                            <td>
+                                {{appointment.start_time}}
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>End Time</td>
+                            <td>
+                                {{appointment.end_time}}
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+            {% if user == appointment.doctor.user %}
+            <div class="card-foooter">
+                {% if not appointment.is_expired %}
+                {% if not appointment.is_visited %}
+                <form hx-post="{% url 'vis_app' appointment.id %}" hx-swap="innerHtml">
+                    {% csrf_token %}
+                    <button type="submit" class="w-100 btn btn-success">Mark as Visited</button>
+                </form>
+                {% else %}
+                <button type="submit" disabled class="w-100 btn btn-secondary">Visited!</button>
+                {% endif %}
+
+            {% else %}
+            <button type="submit" disabled class="w-100 btn btn-danger">Expired</button>
+            {% endif %}
+            
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+{% endblock %}

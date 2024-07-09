@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<style>
+    .clearfix a{
+        text-decoration: none;
+        font-size: 18px;
+        letter-spacing: 1.2px;
+    }
+</style>
+    <div class="container mt-3">
+        <h4 class="mb-3 text-center">My Appoinments</h4>
+        {% if appoinments %}
+
+            {% for i in appoinments %}
+            <div class="clearfix container p-1 mt-3">
+                <div class="float-start">
+                    <a href="{% url 'appointment_confirmation' i.id %}" target="_blank">
+                        {% if user.is_staff %}
+                        <strong>{{i.patient.get_full_name}}</strong> for {{i.cause}}
+                        {% else %}
+                        <strong>Dr. {{i.doctor}}</strong> for {{i.cause}}
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="float-end">
+                    {{i.date}}-{{i.start_time}}
+                </div>
+                <span class="top-3 start-100 translate-middle" style="margin-left: 10px;">
+                    
+                    {% if not i.is_visited %}
+                        {% if not i.is_expired %}
+                        <span class="badge text-bg-success">Upcoming</span>
+                        {% else %}
+                        <span class="badge text-bg-danger">Expired</span>
+                        {% endif %}
+                        {% else %}
+                        <span class="badge text-bg-info">Visited</span>
+                {% endif %}
+                </span>
+            </div>
+            <hr>
+            {% endfor %}
+        {% else %}
+        <p>No Appoinment found!!</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

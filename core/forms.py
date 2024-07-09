@@ -87,3 +87,12 @@ class CommentForm(forms.ModelForm):
             }
 
 
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['cause', 'date', 'start_time']
+        widgets = {
+            'cause': forms.TextInput(attrs={"class": "form-control", "required": 'true'}),
+            'date': forms.DateInput(attrs={"class": "form-control", "type": "date", "required": 'true'}),
+            'start_time': forms.TimeInput(attrs={"class": "form-control", "type": "time", "required": 'true'}),
+        }

@@ -1,8 +1,6 @@
-Sure, here's an updated README file including the new blog system feature:
+# Django User Signup and Login Application with Blog System and Appointment Booking
 
-# Django User Signup and Login Application with Blog System
-
-This Django application allows users to sign up as patients or doctors, log in securely, and access their respective dashboards displaying their profile details. Additionally, it features a blog system where doctors can upload blog posts, and patients can view them.
+This Django application allows users to sign up as patients or doctors, log in securely, and access their respective dashboards displaying their profile details. Additionally, it features a blog system where doctors can upload blog posts, and patients can view them. The application also includes an appointment booking system where patients can book appointments with doctors.
 
 ## Features
 
@@ -15,6 +13,13 @@ This Django application allows users to sign up as patients or doctors, log in s
   - Doctors can view the posts they have uploaded.
   - Patients can view a list of all non-draft blog posts, categorized.
   - Each blog post in the list includes the title, image, and a truncated summary (15 words limit).
+- **Appointment Booking System**:
+  - Patients can view a list of all doctors in the system.
+  - Each list item includes the doctor's profile picture, name, and a "Book Appointment" button.
+  - Patients can book an appointment by filling out a form with the required specialty, date, and start time of the appointment.
+  - Each appointment is 45 minutes long.
+  - Upon confirmation, a calendar event is created for the doctor using Google’s Calendar API.
+  - Patients can view the appointment details including the doctor’s name, appointment date, start time, and end time (calculated by the application).
 
 ## Blog Categories
 
@@ -34,9 +39,9 @@ This application is deployed at [http://18.118.9.110:8080/](http://18.118.9.110:
   - Username: admin
   - Password: admin
 
-  - Doctors Usernames : [doc1, doc2]
-  - Patients username : [pat1, pat2]
-  - Common Password : Sriram66#
+  - Doctors Usernames: [doc1, doc2]
+  - Patients Usernames: [pat1, pat2]
+  - Common Password: Sriram66#
 
 ## Usage
 
@@ -45,6 +50,11 @@ This application is deployed at [http://18.118.9.110:8080/](http://18.118.9.110:
 3. **Blog System**:
    - Doctors can create, view, and manage their blog posts.
    - Patients can view categorized lists of non-draft blog posts.
+4. **Appointment Booking System**:
+   - Patients can view a list of all doctors and book appointments.
+   - Patients fill out a form to book appointments with details such as required specialty, date, and start time.
+   - Appointments are 45 minutes long and create calendar events for doctors using Google’s Calendar API.
+   - Patients can view appointment details after confirmation.
 
 ## Technologies Used
 
@@ -52,6 +62,7 @@ This application is deployed at [http://18.118.9.110:8080/](http://18.118.9.110:
 - Bootstrap
 - MySQL (for production)
 - AWS (for deployment)
+- Google Calendar API
 
 ## Contributing
 
