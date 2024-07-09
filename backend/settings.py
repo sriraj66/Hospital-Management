@@ -143,4 +143,7 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 # GOOGLE_CALENDAR_CREDENTIALS = os.path.join(BASE_DIR, 'cred.json')
 GOOGLE_OAUTH2_CLIENT_ID = config('GOOGLE_OAUTH2_CLIENT_ID')
 GOOGLE_OAUTH2_CLIENT_SECRET = config("GOOGLE_OAUTH2_CLIENT_SECRET")
-GOOGLE_OAUTH2_REDIRECT_URI = 'http://127.0.0.1:8000/google-calendar/redirect/'
+if DEBUG:
+    GOOGLE_OAUTH2_REDIRECT_URI = 'http://127.0.0.1:8000/google-calendar/redirect/'
+else:
+    GOOGLE_OAUTH2_REDIRECT_URI = 'http://18.118.9.110:8080/google-calendar/redirect/'
